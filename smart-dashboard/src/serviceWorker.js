@@ -12,35 +12,27 @@ const ASSETS_TO_CACHE = [
 ];
 
 self.addEventListener("install", event => {
-  console.log("Service Worker installing...");
+  console.log("SW installing...");
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(ASSETS_TO_CACHE);
-    })
+    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS_TO_CACHE))
   );
 });
 
 self.addEventListener("activate", event => {
-  console.log("Service Worker activating...");
+  console.log("SW activating...");
   event.waitUntil(
-    caches.keys().then(keys => {
-      return Promise.all(
-        keys.map(key => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key);
-          }
-        })
-      );
-    })
+    caches.keys().then(keys =>
+      Promise.all(keys.map(key => {
+        if (key !== CACHE_NAME) return caches.delete(key);
+      }))
+    )
   );
 });
 
 self.addEventListener("fetch", event => {
   event.respondWith(
     caches.match(event.request).then(response => {
-      if (response) {
-        return response;
-      }
+      if (response) return response;
       return fetch(event.request).catch(() => {
         if (event.request.mode === "navigate") {
           return caches.match("/offline.html");

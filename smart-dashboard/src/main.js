@@ -13,12 +13,8 @@ function registerServiceWorker() {
     window.addEventListener("load", () => {
       navigator.serviceWorker
         .register("/src/serviceWorker.js")
-        .then(registration => {
-          console.log("Service Worker registered:", registration);
-        })
-        .catch(error => {
-          console.error("Service Worker registration failed:", error);
-        });
+        .then(reg => console.log("SW registered:", reg))
+        .catch(err => console.error("SW registration failed:", err));
     });
   } else {
     console.log("Service Worker not supported");

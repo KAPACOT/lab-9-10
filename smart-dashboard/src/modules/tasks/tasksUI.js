@@ -4,17 +4,17 @@ import { getTasks, addTask, completeTask, deleteTask, getTotalPoints } from "./t
 export function renderTasksUI() {
   const container = getMainContainer();
   const tasks = getTasks();
-  const totalPoints = getTotalPoints();
+  const total = getTotalPoints();
 
   container.innerHTML = `
     <h2>Задачи</h2>
-    <p>Всего очков: ${totalPoints}</p>
+    <p>Всего очков: ${total}</p>
     <ul id="tasks-list" style="list-style: none; padding: 0;">
-      ${tasks.map(task => `
+      ${tasks.map(t => `
         <li style="margin-bottom: 8px;">
-          <input type="checkbox" ${task.completed ? "checked" : ""} data-id="${task.id}">
-          <span style="text-decoration: ${task.completed ? "line-through" : "none"}">${task.title} (${task.points} pts)</span>
-          <button data-delete="${task.id}">Удалить</button>
+          <input type="checkbox" ${t.completed ? "checked" : ""} data-id="${t.id}">
+          <span style="text-decoration: ${t.completed ? "line-through" : "none"}">${t.title} (${t.points} pts)</span>
+          <button data-delete="${t.id}">Удалить</button>
         </li>
       `).join("")}
     </ul>
@@ -25,31 +25,21 @@ export function renderTasksUI() {
     </div>
   `;
 
-  // Обработчики событий
   document.querySelectorAll("input[type=checkbox]").forEach(cb => {
-    cb.addEventListener("change", (e) => {
-      const id = Number(e.target.dataset.id);
-      completeTask(id);
-      renderTasksUI(); // перерисовка
+    cb.addEventListener("change", e => {
+      completeTask(Number(e.target.dataset.id));
+      renderTasksUI();
     });
   });
-
   document.querySelectorAll("button[data-delete]").forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      const id = Number(e.target.dataset.delete);
-      deleteTask(id);
+    btn.addEventListener("click", e => {
+      deleteTask(Number(e.target.dataset.delete));
       renderTasksUI();
     });
   });
-
   document.getElementById("add-task-btn").addEventListener("click", () => {
-    const titleInput = document.getElementById("new-task-title");
-    const pointsInput = document.getElementById("new-task-points");
-    const title = titleInput.value.trim();
-    const points = parseInt(pointsInput.value) || 1;
-    if (title) {
-      addTask({ title, points });
-      renderTasksUI();
-    }
+    const title = document.getElementById("new-task-title").value.trim();
+    const points = parseInt(document.getElementById("new-task-points").value) || 1;
+    if (title) { addTask({ title, points }); renderTasksUI(); }
   });
 }

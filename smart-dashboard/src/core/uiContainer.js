@@ -14,11 +14,9 @@ export function initUI() {
     <main id="main-content" style="padding: 16px;"></main>
   `;
 
-  const buttons = app.querySelectorAll("button[data-path]");
-  buttons.forEach(btn => {
+  document.querySelectorAll("button[data-path]").forEach(btn => {
     btn.addEventListener("click", () => {
-      const path = btn.getAttribute("data-path");
-      navigate(path);
+      navigate(btn.getAttribute("data-path"));
     });
   });
 }
