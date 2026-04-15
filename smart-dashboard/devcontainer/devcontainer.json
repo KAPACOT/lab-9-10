@@ -1,0 +1,11 @@
+{
+  "name": "Smart Dashboard",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye",
+  "forwardPorts": [3000],
+  "postCreateCommand": "npm install -g live-server",
+  "customizations": {
+    "vscode": {
+      "extensions": ["ritwickdey.liveserver"]
+    }
+  }
+}
