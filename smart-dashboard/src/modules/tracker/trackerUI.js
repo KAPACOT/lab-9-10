@@ -4,21 +4,12 @@ export function renderTracker(view) {
   const s = getStats();
 
   view.innerHTML = `
+    <h2>Tracker</h2>
+
     <div class="card">
-      <div class="row">
-        <span>Total tasks</span>
-        <span>${s.tasks}</span>
-      </div>
-
-      <div class="row">
-        <span>Completed</span>
-        <span>${s.done}</span>
-      </div>
-
-      <div class="row">
-        <span>Notes</span>
-        <span>${s.notes}</span>
-      </div>
+      <p>Total tasks: ${s.tasks}</p>
+      <p>Done: ${s.done}</p>
+      <p>Notes: ${s.notes}</p>
     </div>
   `;
 }

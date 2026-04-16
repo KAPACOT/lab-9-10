@@ -2,36 +2,35 @@ import { setLang, getLang } from "./i18n.js";
 
 export function initUI() {
   document.getElementById("app").innerHTML = `
-    <div class="layout">
+    <div class="app-container">
 
-      <header class="header">
-        <div class="container header-inner">
+      <div class="main-content" id="view"></div>
 
-          <div class="logo">Smart Dashboard</div>
+      <nav class="bottom-nav">
+        <button class="nav-btn" data-route="#/tasks">Tasks</button>
+        <button class="nav-btn" data-route="#/notes">Notes</button>
+        <button class="nav-btn" data-route="#/tracker">Tracker</button>
+      </nav>
 
-          <nav class="tabs">
-            <a href="#/tasks">Tasks</a>
-            <a href="#/notes">Notes</a>
-            <a href="#/tracker">Tracker</a>
-          </nav>
-
-          <div class="controls">
-            <select id="langSelect" class="select"></select>
-            <button id="themeToggle" class="btn ghost">Theme</button>
-          </div>
-
-        </div>
-      </header>
-
-      <main class="container">
-        <div id="view"></div>
-      </main>
+      <div class="top-controls">
+        <select id="langSelect"></select>
+        <button id="themeToggle" class="btn-icon">☾</button>
+      </div>
 
     </div>
   `;
 
+  initNav();
   initLang();
   initTheme();
+}
+
+function initNav() {
+  document.querySelectorAll(".nav-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      location.hash = btn.dataset.route;
+    });
+  });
 }
 
 function initLang() {
@@ -44,18 +43,15 @@ function initLang() {
   `;
 
   select.value = getLang();
-
-  select.addEventListener("change", (e) => {
-    setLang(e.target.value);
-  });
+  select.onchange = (e) => setLang(e.target.value);
 }
 
 function initTheme() {
-  const saved = localStorage.getItem("theme") || "dark";
-  document.body.classList.toggle("light", saved === "light");
+  const saved = localStorage.getItem("theme") || "light";
+  document.body.classList.toggle("dark", saved === "dark");
 
-  document.getElementById("themeToggle").addEventListener("click", () => {
-    const isLight = document.body.classList.toggle("light");
-    localStorage.setItem("theme", isLight ? "light" : "dark");
-  });
+  document.getElementById("themeToggle").onclick = () => {
+    const isDark = document.body.classList.toggle("dark");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  };
 }

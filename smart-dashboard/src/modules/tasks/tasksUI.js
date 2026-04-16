@@ -2,33 +2,21 @@ import { getTasks, addTask, toggleTask } from "./tasks.js";
 
 export function renderTasks(view) {
   view.innerHTML = `
+    <h2>Tasks</h2>
+
     <div class="card">
-
-      <div class="row space">
-        <h2>Tasks</h2>
-        <div class="badge">${getPoints()} pts</div>
-      </div>
-
-      <div class="input-row">
-        <input id="taskInput" placeholder="New task"/>
-        <button id="addBtn" class="btn">Add</button>
-      </div>
-
-      <div id="list"></div>
-
+      <input id="taskInput" placeholder="New task"/>
+      <button id="addBtn" class="btn-primary">Add</button>
     </div>
+
+    <div id="list"></div>
   `;
 
-  document.getElementById("addBtn").addEventListener("click", add);
-  renderList();
-}
+  document.getElementById("addBtn").onclick = () => {
+    addTask(document.getElementById("taskInput").value);
+    renderTasks(view);
+  };
 
-function add() {
-  const input = document.getElementById("taskInput");
-  if (!input.value.trim()) return;
-
-  addTask(input.value);
-  input.value = "";
   renderList();
 }
 
@@ -37,20 +25,15 @@ function renderList() {
 
   list.innerHTML = getTasks().map(t => `
     <div class="task ${t.done ? "done" : ""}" data-id="${t.id}">
-      <input type="checkbox" ${t.done ? "checked" : ""}/>
       <span>${t.title}</span>
-      <span class="points">+5</span>
+      <input type="checkbox" ${t.done ? "checked" : ""}/>
     </div>
   `).join("");
 
   list.querySelectorAll(".task").forEach(el => {
-    el.addEventListener("click", () => {
+    el.onclick = () => {
       toggleTask(Number(el.dataset.id));
       renderList();
-    });
+    };
   });
-}
-
-function getPoints() {
-  return getTasks().filter(t => t.done).length * 5;
 }

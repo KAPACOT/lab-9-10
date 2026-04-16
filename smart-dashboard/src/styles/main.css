@@ -1,113 +1,85 @@
 :root {
+  --bg: #f5f7fb;
+  --card: #ffffff;
+  --text: #1e2a3a;
+  --accent: #2c7da0;
+  --border: #e4ecf3;
+}
+
+body.dark {
   --bg: #121212;
-  --surface: #1e1e1e;
+  --card: #1e1e1e;
   --text: #ffffff;
-  --text-secondary: #a0a0a0;
-  --accent: #4A90E2;
-  --success: #22c55e;
   --border: #2a2a2a;
 }
 
-/* base */
 body {
   margin: 0;
-  font-family: Inter, system-ui, Arial;
+  font-family: system-ui, -apple-system, sans-serif;
   background: var(--bg);
   color: var(--text);
 }
 
-/* container */
-.container {
-  max-width: 900px;
+/* контейнер */
+.app-container {
+  max-width: 480px;
   margin: 0 auto;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+}
+
+/* контент */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
   padding: 16px;
 }
 
-/* header */
-.header {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-}
-
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.logo {
-  font-weight: 600;
-  font-size: 18px;
-}
-
-/* tabs */
-.tabs {
-  display: flex;
-  gap: 16px;
-}
-
-.tabs a {
-  text-decoration: none;
-  color: var(--text-secondary);
-  padding: 8px;
-  position: relative;
-}
-
-.tabs a.active {
-  color: var(--text);
-}
-
-.tabs a.active::after {
-  content: "";
-  position: absolute;
-  bottom: -8px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--accent);
-}
-
-/* cards */
+/* карточки */
 .card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
+  background: var(--card);
+  border-radius: 20px;
   padding: 16px;
+  border: 1px solid var(--border);
+  margin-bottom: 12px;
 }
 
-/* inputs */
+/* input */
 input, textarea {
   width: 100%;
   padding: 12px;
-  background: var(--surface);
+  border-radius: 14px;
   border: 1px solid var(--border);
-  color: var(--text);
-  border-radius: 8px;
+  margin-bottom: 10px;
 }
 
-/* button */
-button {
+/* кнопки */
+.btn-primary {
   background: var(--accent);
-  border: none;
-  padding: 10px 14px;
   color: white;
-  border-radius: 8px;
-  cursor: pointer;
+  border: none;
+  padding: 12px;
+  border-radius: 40px;
+  width: 100%;
 }
 
-/* list */
+/* икон кнопка */
+.btn-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: #eef2f5;
+}
+
+/* задачи */
 .task {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 12px;
+  padding: 10px;
   border-bottom: 1px solid var(--border);
-}
-
-.task-left {
-  display: flex;
-  gap: 10px;
-  align-items: center;
 }
 
 .task.done {
@@ -115,65 +87,43 @@ button {
   text-decoration: line-through;
 }
 
-.points {
-  font-size: 12px;
-  color: var(--text-secondary);
-}
-
-/* notes grid */
-.notes-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
-
-.note {
-  background: var(--surface);
-  padding: 12px;
-  border-radius: 10px;
-}
-
-/* tracker */
-.row {
+/* заметки */
+.notes-list {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.note-card {
   padding: 12px;
-  border-bottom: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
 }
 
-/* mobile */
-@media (max-width: 768px) {
-  .tabs {
-    overflow-x: auto;
-  }
-
-  .notes-grid {
-    grid-template-columns: 1fr;
-  }
+/* навигация */
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid var(--border);
+  padding: 10px;
 }
-.btn {
-  background: var(--accent);
+
+.nav-btn {
+  background: none;
   border: none;
-  padding: 10px 14px;
-  border-radius: 8px;
-  color: white;
-  cursor: pointer;
-  transition: 0.2s;
+  color: gray;
 }
 
-.btn:hover {
-  background: #357abd;
+.nav-btn.active {
+  color: var(--accent);
 }
 
-.btn.ghost {
-  background: transparent;
-  border: 1px solid var(--border);
-}
-
-.select {
-  background: var(--surface);
-  color: var(--text);
-  border: 1px solid var(--border);
-  padding: 8px;
-  border-radius: 6px;
+/* верхние контролы */
+.top-controls {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 10px;
 }

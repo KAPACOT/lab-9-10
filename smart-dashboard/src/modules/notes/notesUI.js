@@ -2,29 +2,23 @@ import { getNotes, addNote } from "./notes.js";
 
 export function renderNotes(view) {
   view.innerHTML = `
+    <h2>Notes</h2>
+
     <div class="card">
-      <textarea id="noteInput" placeholder="Write note"></textarea>
-      <button id="addNote" class="btn">Add</button>
+      <textarea id="noteInput"></textarea>
+      <button id="addNote" class="btn-primary">Add</button>
     </div>
 
-    <div id="notesList" class="notes-grid"></div>
+    <div id="notesList" class="notes-list"></div>
   `;
 
-  document.getElementById("addNote").addEventListener("click", () => {
-    const val = document.getElementById("noteInput").value;
-    if (!val.trim()) return;
-
-    addNote(val);
+  document.getElementById("addNote").onclick = () => {
+    addNote(document.getElementById("noteInput").value);
     renderNotes(view);
-  });
+  };
 
-  renderList();
-}
-
-function renderList() {
-  const list = document.getElementById("notesList");
-
-  list.innerHTML = getNotes().map(n => `
-    <div class="note">${n.text}</div>
-  `).join("");
+  document.getElementById("notesList").innerHTML =
+    getNotes().map(n => `
+      <div class="note-card">${n.text}</div>
+    `).join("");
 }
