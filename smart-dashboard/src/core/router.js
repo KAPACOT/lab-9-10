@@ -9,11 +9,24 @@ export function initRouter() {
 
 function router() {
   const view = document.getElementById("view");
+  const title = document.getElementById("pageTitle");
   const route = location.hash;
 
-  if (route === "#/tasks") return renderTasks(view);
-  if (route === "#/notes") return renderNotes(view);
-  if (route === "#/tracker") return renderTracker(view);
+  if (route === "#/tasks") {
+    title.textContent = "Tasks";
+    return renderTasks(view);
+  }
 
-  view.innerHTML = "<h2>Добро пожаловать</h2>";
+  if (route === "#/notes") {
+    title.textContent = "Notes";
+    return renderNotes(view);
+  }
+
+  if (route === "#/tracker") {
+    title.textContent = "Tracker";
+    return renderTracker(view);
+  }
+
+  title.textContent = "Dashboard";
+  view.innerHTML = "<div class='card'>Welcome</div>";
 }

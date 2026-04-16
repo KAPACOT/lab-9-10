@@ -1,22 +1,164 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: Arial;
-  background: #121212;
-  color: white;
   margin: 0;
+  font-family: "Inter", Arial, sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
 }
 
-header {
-  padding: 10px;
-  background: #1e1e1e;
-}
-
-nav {
+/* Layout */
+.app {
   display: flex;
-  gap: 10px;
-  padding: 10px;
-  background: #2a2a2a;
+  height: 100vh;
 }
 
-main {
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background: #020617;
+  border-right: 1px solid #1e293b;
   padding: 20px;
+}
+
+.sidebar h1 {
+  font-size: 18px;
+  margin-bottom: 30px;
+  color: #f8fafc;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nav a {
+  padding: 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #94a3b8;
+  transition: 0.2s;
+}
+
+.nav a:hover {
+  background: #1e293b;
+  color: #f1f5f9;
+}
+
+.nav a.active {
+  background: #3b82f6;
+  color: white;
+}
+
+/* Main */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.header {
+  padding: 16px 24px;
+  border-bottom: 1px solid #1e293b;
+  background: #020617;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+/* Content */
+.content {
+  padding: 24px;
+}
+
+/* Card */
+.card {
+  background: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+/* Inputs */
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  background: #020617;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+/* Button */
+button {
+  padding: 10px 14px;
+  background: #3b82f6;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #2563eb;
+}
+
+/* List */
+ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 15px;
+}
+
+li {
+  padding: 10px;
+  border-bottom: 1px solid #1e293b;
+  cursor: pointer;
+}
+
+li:hover {
+  background: #1e293b;
+}
+
+.done {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+/* Stats */
+.stats {
+  display: flex;
+  gap: 20px;
+}
+
+.stat {
+  flex: 1;
+  padding: 20px;
+  border-radius: 10px;
+  background: #020617;
+  border: 1px solid #1e293b;
+  text-align: center;
+}
+
+.stat h3 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.stat p {
+  margin: 5px 0 0;
+  color: #94a3b8;
 }

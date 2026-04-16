@@ -2,13 +2,14 @@ import { getNotes, addNote } from "./notes.js";
 
 export function renderNotes(view) {
   view.innerHTML = `
-    <h2>Notes</h2>
-    <textarea id="noteInput"></textarea>
-    <button id="addNote">Save</button>
-    <ul id="notesList"></ul>
+    <div class="card">
+      <textarea id="noteInput" placeholder="Write note..."></textarea>
+      <button id="saveNote">Save</button>
+      <ul id="notesList"></ul>
+    </div>
   `;
 
-  document.getElementById("addNote").onclick = () => {
+  document.getElementById("saveNote").onclick = () => {
     addNote(document.getElementById("noteInput").value);
     renderNotes(view);
   };
