@@ -2,69 +2,58 @@ import { setLang, getLang } from "./i18n.js";
 
 export function initUI() {
   document.getElementById("app").innerHTML = `
-    <div class="app-container">
+    <div class="app">
 
-      <div class="main-content" id="view"></div>
+      <div id="view" class="screen"></div>
 
-      <!-- FAB -->
       <button id="fab" class="fab">+</button>
 
-      <!-- Bottom nav -->
       <nav class="bottom-nav">
-        <button class="nav-btn" data-route="#/tasks">Tasks</button>
-        <button class="nav-btn" data-route="#/notes">Notes</button>
-        <button class="nav-btn" data-route="#/tracker">Tracker</button>
+        <button data-route="#/tasks">Tasks</button>
+        <button data-route="#/notes">Notes</button>
+        <button data-route="#/tracker">Tracker</button>
       </nav>
 
-      <!-- Modal -->
-      <div id="modal" class="modal">
-        <div class="modal-content">
-          <textarea id="modalInput"></textarea>
-          <button id="modalSave" class="btn-primary">Save</button>
-        </div>
+      <div class="top-bar">
+        <select id="lang"></select>
+        <button id="theme">☾</button>
       </div>
+
+      <div id="modal" class="modal hidden"></div>
 
     </div>
   `;
 
   initNav();
-  initFAB();
-  initSwipe();
+  initLang();
+  initTheme();
 }
 
 function initNav() {
-  document.querySelectorAll(".nav-btn").forEach(btn => {
+  document.querySelectorAll(".bottom-nav button").forEach(btn => {
     btn.onclick = () => location.hash = btn.dataset.route;
   });
 }
 
-function initFAB() {
-  const fab = document.getElementById("fab");
-  const modal = document.getElementById("modal");
+function initLang() {
+  const el = document.getElementById("lang");
 
-  fab.addEventListener("click", () => {
-    modal.classList.add("active");
-  });
+  el.innerHTML = `
+    <option value="en">EN</option>
+    <option value="ru">RU</option>
+    <option value="zh">中文</option>
+  `;
 
-  modal.addEventListener("click", (e) => {
-    if (e.target.id === "modal") {
-      modal.classList.remove("active");
-    }
-  });
+  el.value = getLang();
+  el.onchange = e => setLang(e.target.value);
+}
 
-  document.getElementById("modalSave").addEventListener("click", () => {
-    const text = document.getElementById("modalInput").value.trim();
+function initTheme() {
+  const saved = localStorage.getItem("theme") || "light";
+  document.body.classList.toggle("dark", saved === "dark");
 
-    if (!text) return;
-
-    // 🔥 безопасный вызов
-    if (location.hash === "#/tasks") {
-      document.dispatchEvent(new CustomEvent("addTask", { detail: text }));
-    } else if (location.hash === "#/notes") {
-      document.dispatchEvent(new CustomEvent("addNote", { detail: text }));
-    }
-
-    document.getElementById("modalInput").value = "";
-    modal.classList.remove("active");
-  });
+  document.getElementById("theme").onclick = () => {
+    const d = document.body.classList.toggle("dark");
+    localStorage.setItem("theme", d ? "dark" : "light");
+  };
 }

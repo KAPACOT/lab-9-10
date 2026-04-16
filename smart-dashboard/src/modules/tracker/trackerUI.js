@@ -6,10 +6,10 @@ export function renderTracker(view) {
   view.innerHTML = `
     <h2>Tracker</h2>
 
-    <div class="card">
-      <p>Total tasks: ${s.tasks}</p>
-      <p>Done: ${s.done}</p>
-      <p>Notes: ${s.notes}</p>
-    </div>
+    <div class="card">Tasks: ${s.tasks}</div>
+    <div class="card">Done: ${s.done}</div>
+    <div class="card">Notes: ${s.notes}</div>
   `;
+
+  document.getElementById("fab").style.display = "none";
 }

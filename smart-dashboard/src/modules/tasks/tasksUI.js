@@ -6,29 +6,16 @@ export function renderTasks(view) {
     <div id="list"></div>
   `;
 
-  document.addEventListener("addTask", handleAdd);
-
   renderList();
-}
 
-function handleAdd(e) {
-  addTask(e.detail);
-  renderList();
+  document.getElementById("fab").onclick = openModal;
 }
 
 function renderList() {
   const list = document.getElementById("list");
-  if (!list) return;
 
-  const tasks = getTasks();
-
-  if (!tasks.length) {
-    list.innerHTML = `<div class="empty">No tasks yet</div>`;
-    return;
-  }
-
-  list.innerHTML = tasks.map(t => `
-    <div class="task ${t.done ? "done" : ""}" data-id="${t.id}">
+  list.innerHTML = getTasks().map(t => `
+    <div class="card task" data-id="${t.id}">
       <span>${t.title}</span>
       <input type="checkbox" ${t.done ? "checked" : ""}/>
     </div>
@@ -40,4 +27,23 @@ function renderList() {
       renderList();
     };
   });
+}
+
+function openModal() {
+  const modal = document.getElementById("modal");
+
+  modal.innerHTML = `
+    <div class="modal-box">
+      <input id="newTask" placeholder="Task"/>
+      <button id="save" class="btn">Add</button>
+    </div>
+  `;
+
+  modal.classList.remove("hidden");
+
+  document.getElementById("save").onclick = () => {
+    addTask(document.getElementById("newTask").value);
+    modal.classList.add("hidden");
+    renderList();
+  };
 }

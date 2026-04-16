@@ -11,7 +11,7 @@ function router() {
   const view = document.getElementById("view");
   const route = location.hash || "#/tasks";
 
-  highlightActive(route);
+  highlight(route);
 
   if (route === "#/tasks") return renderTasks(view);
   if (route === "#/notes") return renderNotes(view);
@@ -20,8 +20,8 @@ function router() {
   renderTasks(view);
 }
 
-function highlightActive(route) {
-  document.querySelectorAll(".tabs a").forEach(a => {
-    a.classList.toggle("active", a.getAttribute("href") === route);
+function highlight(route) {
+  document.querySelectorAll(".bottom-nav button").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.route === route);
   });
 }
