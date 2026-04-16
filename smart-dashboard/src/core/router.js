@@ -1,6 +1,7 @@
 import { renderTasks } from "../modules/tasks/tasksUI.js";
 import { renderNotes } from "../modules/notes/notesUI.js";
 import { renderTracker } from "../modules/tracker/trackerUI.js";
+import { t } from "./i18n.js";
 
 export function initRouter() {
   window.addEventListener("hashchange", router);
@@ -13,20 +14,20 @@ function router() {
   const route = location.hash;
 
   if (route === "#/tasks") {
-    title.textContent = "Tasks";
+    title.textContent = t("tasks");
     return renderTasks(view);
   }
 
   if (route === "#/notes") {
-    title.textContent = "Notes";
+    title.textContent = t("notes");
     return renderNotes(view);
   }
 
   if (route === "#/tracker") {
-    title.textContent = "Tracker";
+    title.textContent = t("tracker");
     return renderTracker(view);
   }
 
-  title.textContent = "Dashboard";
-  view.innerHTML = "<div class='card'>Welcome</div>";
+  title.textContent = t("dashboard");
+  view.innerHTML = `<div class="card">${t("dashboard")}</div>`;
 }

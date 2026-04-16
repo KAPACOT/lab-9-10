@@ -1,4 +1,5 @@
 import { getStats } from "./tracker.js";
+import { t } from "../../core/i18n.js";
 
 export function renderTracker(view) {
   const s = getStats();
@@ -7,17 +8,17 @@ export function renderTracker(view) {
     <div class="stats">
       <div class="stat">
         <h3>${s.tasks}</h3>
-        <p>Total tasks</p>
+        <p>${t("totalTasks")}</p>
       </div>
 
       <div class="stat">
         <h3>${s.done}</h3>
-        <p>Completed</p>
+        <p>${t("completed")}</p>
       </div>
 
       <div class="stat">
         <h3>${s.notes}</h3>
-        <p>Notes</p>
+        <p>${t("notesCount")}</p>
       </div>
     </div>
   `;

@@ -1,10 +1,11 @@
 import { getNotes, addNote } from "./notes.js";
+import { t } from "../../core/i18n.js";
 
 export function renderNotes(view) {
   view.innerHTML = `
     <div class="card">
-      <textarea id="noteInput" placeholder="Write note..."></textarea>
-      <button id="saveNote">Save</button>
+      <textarea id="noteInput" placeholder="${t("writeNote")}"></textarea>
+      <button id="saveNote">${t("save")}</button>
       <ul id="notesList"></ul>
     </div>
   `;
