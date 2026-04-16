@@ -1,26 +1,19 @@
-let routes = {};
-let defaultRoute = null;
+import { renderTasks } from "../modules/tasks/tasksUI.js";
+import { renderNotes } from "../modules/notes/notesUI.js";
+import { renderTracker } from "../modules/tracker/trackerUI.js";
 
 export function initRouter() {
-  routes = {
-    '/tasks': () => import('../modules/tasks/tasksUI.js').then((mod) => mod.renderTasksUI()),
-    '/notes': () => import('../modules/notes/notesUI.js').then((mod) => mod.renderNotesUI()),
-    '/tracker': () => import('../modules/tracker/trackerUI.js').then((mod) => mod.renderTrackerUI()),
-  };
-
-  defaultRoute = '/tasks';
-
-  window.addEventListener('popstate', handleRoute);
-  handleRoute();
+  window.addEventListener("hashchange", router);
+  router();
 }
 
-export function navigate(path) {
-  history.pushState({}, '', path);
-  handleRoute();
-}
+function router() {
+  const view = document.getElementById("view");
+  const route = location.hash;
 
-function handleRoute() {
-  const path = window.location.pathname;
-  const route = routes[path] ? path : defaultRoute;
-  routes[route]();
+  if (route === "#/tasks") return renderTasks(view);
+  if (route === "#/notes") return renderNotes(view);
+  if (route === "#/tracker") return renderTracker(view);
+
+  view.innerHTML = "<h2>Добро пожаловать</h2>";
 }

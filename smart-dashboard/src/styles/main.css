@@ -1,72 +1,22 @@
-@import './variables.css';
-
 body {
-  font-family: Arial, sans-serif;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  line-height: 1.5;
+  font-family: Arial;
+  background: #121212;
+  color: white;
+  margin: 0;
 }
 
-.app-header {
-  background-color: var(--bg-secondary);
-  padding: 16px;
+header {
+  padding: 10px;
+  background: #1e1e1e;
+}
+
+nav {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #333;
+  gap: 10px;
+  padding: 10px;
+  background: #2a2a2a;
 }
 
-.app-header h1 {
-  font-size: 1.5rem;
-}
-
-.app-header nav button {
-  background: none;
-  border: 1px solid var(--accent);
-  color: var(--text-primary);
-  padding: 6px 12px;
-  margin-left: 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.app-header nav button:hover {
-  background-color: var(--accent);
-}
-
-.main-content {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 16px;
-}
-
-.module {
-  background-color: var(--bg-secondary);
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 16px;
-}
-
-button {
-  background-color: var(--accent);
-  border: none;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button.delete-btn {
-  background-color: #f44336;
-}
-
-input, textarea {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 8px;
-  background-color: #333;
-  border: 1px solid #444;
-  color: white;
-  border-radius: 4px;
+main {
+  padding: 20px;
 }

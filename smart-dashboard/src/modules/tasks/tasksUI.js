@@ -1,68 +1,30 @@
-import { getMainContainer } from '../../core/uiContainer.js';
-import { getTasks, addTask, completeTask, deleteTask } from './tasks.js';
+import { getTasks, addTask, toggleTask } from "./tasks.js";
 
-export function renderTasksUI() {
-  const container = getMainContainer();
-  container.innerHTML = `
-    <div class="module tasks-module">
-      <h2>Задачи и привычки</h2>
-      <form id="add-task-form">
-        <input type="text" id="task-title" placeholder="Новая задача" required />
-        <button type="submit">Добавить</button>
-      </form>
-      <ul id="tasks-list" class="tasks-list"></ul>
-    </div>
+export function renderTasks(view) {
+  view.innerHTML = `
+    <h2>Tasks</h2>
+    <input id="taskInput"/>
+    <button id="addBtn">Add</button>
+    <ul id="list"></ul>
   `;
 
-  const form = document.getElementById('add-task-form');
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const titleInput = document.getElementById('task-title');
-    const title = titleInput.value.trim();
-    if (title) {
-      addTask({ title });
-      titleInput.value = '';
-      renderTaskList();
-    }
-  });
+  document.getElementById("addBtn").onclick = () => {
+    addTask(document.getElementById("taskInput").value);
+    renderTasks(view);
+  };
 
-  renderTaskList();
+  update();
 }
 
-function renderTaskList() {
-  const list = document.getElementById('tasks-list');
-  const tasks = getTasks();
-  list.innerHTML = tasks
-    .map(
-      (task) => `
-      <li class="task-item ${task.completed ? 'completed' : ''}">
-        <span>${task.title} (${task.points} pts)</span>
-        <div>
-          ${
-            !task.completed
-              ? `<button class="complete-btn" data-id="${task.id}">✓</button>`
-              : ''
-          }
-          <button class="delete-btn" data-id="${task.id}">✗</button>
-        </div>
-      </li>
-    `
-    )
-    .join('');
+function update() {
+  const list = document.getElementById("list");
 
-  document.querySelectorAll('.complete-btn').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const id = Number(btn.dataset.id);
-      completeTask(id);
-      renderTaskList();
-    });
-  });
-
-  document.querySelectorAll('.delete-btn').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const id = Number(btn.dataset.id);
-      deleteTask(id);
-      renderTaskList();
-    });
-  });
+  list.innerHTML = getTasks().map(t =>
+    `<li onclick="toggle(${t.id})">${t.done ? "✔" : ""} ${t.title}</li>`
+  ).join("");
 }
+
+window.toggle = id => {
+  toggleTask(id);
+  update();
+};

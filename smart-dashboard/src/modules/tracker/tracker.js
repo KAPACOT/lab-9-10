@@ -1,12 +1,10 @@
-import { getTotalPoints as getTasksPoints } from '../tasks/tasks.js';
-import { getNotes } from '../notes/notes.js';
+import { load } from "../../core/dataService.js";
 
-export function getTotalActivityPoints() {
-  const tasksPoints = getTasksPoints();
-  const notesPoints = getNotes().length; // каждая заметка дает 1 балл
-  return tasksPoints + notesPoints;
-}
-
-export function getUserLevel(points) {
-  return Math.floor(points / 10) + 1;
+export function getStats() {
+  const data = load();
+  return {
+    tasks: data.tasks.length,
+    done: data.tasks.filter(t => t.done).length,
+    notes: data.notes.length
+  };
 }

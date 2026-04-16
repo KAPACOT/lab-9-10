@@ -1,25 +1,15 @@
-import { initRouter } from './core/router.js';
-import { initUI } from './core/uiContainer.js';
+import { initRouter } from "./core/router.js";
+import { initUI } from "./core/uiContainer.js";
 
 function initApp() {
-  console.log('App started');
   initUI();
   initRouter();
-  registerServiceWorker();
+  registerSW();
 }
 
-function registerServiceWorker() {
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker
-        .register('/src/serviceWorker.js')
-        .then((registration) => {
-          console.log('Service Worker registered:', registration);
-        })
-        .catch((error) => {
-          console.error('Service Worker registration failed:', error);
-        });
-    });
+function registerSW() {
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/src/serviceWorker.js");
   }
 }
 
