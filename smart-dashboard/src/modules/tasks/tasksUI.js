@@ -1,12 +1,18 @@
 import { getTasks, addTask, toggleTask } from "./tasks.js";
-import { t } from "../../core/i18n.js";
 
 export function renderTasks(view) {
+  const total = getTasks().filter(t => t.done).length * 5;
+
   view.innerHTML = `
     <div class="card">
-      <input id="taskInput" placeholder="${t("newTask")}" />
-      <button id="addBtn">${t("addTask")}</button>
-      <ul id="list"></ul>
+      <h2>Total: ${total} pts</h2>
+
+      <div style="display:flex; gap:8px; margin:12px 0;">
+        <input id="taskInput" placeholder="New task"/>
+        <button id="addBtn">Add</button>
+      </div>
+
+      <div id="list"></div>
     </div>
   `;
 
@@ -21,9 +27,16 @@ export function renderTasks(view) {
 function update() {
   const list = document.getElementById("list");
 
-  list.innerHTML = getTasks().map(tk =>
-    `<li class="${tk.done ? "done" : ""}" onclick="toggle(${tk.id})">${tk.title}</li>`
-  ).join("");
+  list.innerHTML = getTasks().map(t => `
+    <div class="task ${t.done ? "done" : ""}">
+      <div class="task-left" onclick="toggle(${t.id})">
+        <input type="checkbox" ${t.done ? "checked" : ""}/>
+        <span>${t.title}</span>
+      </div>
+
+      <div class="points">+5</div>
+    </div>
+  `).join("");
 }
 
 window.toggle = (id) => {

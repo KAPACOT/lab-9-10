@@ -37,3 +37,9 @@ document.querySelectorAll(".bottom-nav a").forEach(a => {
     a.classList.add("active");
   }
 });
+document.querySelectorAll(".tabs a").forEach(a => {
+  a.classList.remove("active");
+  if (a.getAttribute("href") === location.hash) {
+    a.classList.add("active");
+  }
+});

@@ -1,20 +1,24 @@
 import { getNotes, addNote } from "./notes.js";
-import { t } from "../../core/i18n.js";
 
 export function renderNotes(view) {
   view.innerHTML = `
     <div class="card">
-      <textarea id="noteInput" placeholder="${t("writeNote")}"></textarea>
-      <button id="saveNote">${t("save")}</button>
-      <ul id="notesList"></ul>
+      <textarea id="noteInput"></textarea>
+      <button id="addNote">Add</button>
     </div>
+
+    <div class="notes-grid" id="notesList"></div>
   `;
 
-  document.getElementById("saveNote").onclick = () => {
+  document.getElementById("addNote").onclick = () => {
     addNote(document.getElementById("noteInput").value);
     renderNotes(view);
   };
 
   document.getElementById("notesList").innerHTML =
-    getNotes().map(n => `<li>${n.text}</li>`).join("");
+    getNotes().map(n => `
+      <div class="note">
+        <div>${n.text}</div>
+      </div>
+    `).join("");
 }
