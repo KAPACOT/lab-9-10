@@ -6,52 +6,57 @@ export function initUI() {
 
       <div class="main-content" id="view"></div>
 
+      <!-- FAB -->
+      <button id="fab" class="fab">+</button>
+
+      <!-- Bottom nav -->
       <nav class="bottom-nav">
         <button class="nav-btn" data-route="#/tasks">Tasks</button>
         <button class="nav-btn" data-route="#/notes">Notes</button>
         <button class="nav-btn" data-route="#/tracker">Tracker</button>
       </nav>
 
-      <div class="top-controls">
-        <select id="langSelect"></select>
-        <button id="themeToggle" class="btn-icon">☾</button>
+      <!-- Modal -->
+      <div id="modal" class="modal">
+        <div class="modal-content">
+          <textarea id="modalInput"></textarea>
+          <button id="modalSave" class="btn-primary">Save</button>
+        </div>
       </div>
 
     </div>
   `;
 
   initNav();
-  initLang();
-  initTheme();
+  initFAB();
+  initSwipe();
 }
 
 function initNav() {
   document.querySelectorAll(".nav-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      location.hash = btn.dataset.route;
-    });
+    btn.onclick = () => location.hash = btn.dataset.route;
   });
 }
 
-function initLang() {
-  const select = document.getElementById("langSelect");
+function initFAB() {
+  const fab = document.getElementById("fab");
+  const modal = document.getElementById("modal");
 
-  select.innerHTML = `
-    <option value="en">EN</option>
-    <option value="ru">RU</option>
-    <option value="zh">中文</option>
-  `;
+  fab.onclick = () => modal.classList.add("active");
 
-  select.value = getLang();
-  select.onchange = (e) => setLang(e.target.value);
-}
+  modal.onclick = (e) => {
+    if (e.target.id === "modal") modal.classList.remove("active");
+  };
 
-function initTheme() {
-  const saved = localStorage.getItem("theme") || "light";
-  document.body.classList.toggle("dark", saved === "dark");
+  document.getElementById("modalSave").onclick = () => {
+    const text = document.getElementById("modalInput").value;
 
-  document.getElementById("themeToggle").onclick = () => {
-    const isDark = document.body.classList.toggle("dark");
-    localStorage.setItem("theme", isDark ? "dark" : "light");
+    if (location.hash === "#/tasks") {
+      window.addTaskFromModal(text);
+    } else {
+      window.addNoteFromModal(text);
+    }
+
+    modal.classList.remove("active");
   };
 }
