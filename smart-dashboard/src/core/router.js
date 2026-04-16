@@ -31,3 +31,9 @@ function router() {
   title.textContent = t("dashboard");
   view.innerHTML = `<div class="card">${t("dashboard")}</div>`;
 }
+document.querySelectorAll(".bottom-nav a").forEach(a => {
+  a.classList.remove("active");
+  if (a.getAttribute("href") === location.hash) {
+    a.classList.add("active");
+  }
+});
