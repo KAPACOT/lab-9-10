@@ -1,4 +1,4 @@
-import { setLang, getLang, t } from "./i18n.js";
+import { setLang, getLang } from "./i18n.js";
 
 export function initUI() {
   document.getElementById("app").innerHTML = `
@@ -15,12 +15,9 @@ export function initUI() {
             <a href="#/tracker">Tracker</a>
           </nav>
 
-          <div class="actions">
-            <select id="langSelect">
-              <option value="en">EN</option>
-              <option value="ru">RU</option>
-              <option value="zh">中文</option>
-            </select>
+          <div class="controls">
+            <select id="langSelect" class="select"></select>
+            <button id="themeToggle" class="btn ghost">Theme</button>
           </div>
 
         </div>
@@ -33,7 +30,32 @@ export function initUI() {
     </div>
   `;
 
+  initLang();
+  initTheme();
+}
+
+function initLang() {
   const select = document.getElementById("langSelect");
+
+  select.innerHTML = `
+    <option value="en">EN</option>
+    <option value="ru">RU</option>
+    <option value="zh">中文</option>
+  `;
+
   select.value = getLang();
-  select.onchange = (e) => setLang(e.target.value);
+
+  select.addEventListener("change", (e) => {
+    setLang(e.target.value);
+  });
+}
+
+function initTheme() {
+  const saved = localStorage.getItem("theme") || "dark";
+  document.body.classList.toggle("light", saved === "light");
+
+  document.getElementById("themeToggle").addEventListener("click", () => {
+    const isLight = document.body.classList.toggle("light");
+    localStorage.setItem("theme", isLight ? "light" : "dark");
+  });
 }

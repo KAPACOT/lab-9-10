@@ -3,22 +3,28 @@ import { getNotes, addNote } from "./notes.js";
 export function renderNotes(view) {
   view.innerHTML = `
     <div class="card">
-      <textarea id="noteInput"></textarea>
-      <button id="addNote">Add</button>
+      <textarea id="noteInput" placeholder="Write note"></textarea>
+      <button id="addNote" class="btn">Add</button>
     </div>
 
-    <div class="notes-grid" id="notesList"></div>
+    <div id="notesList" class="notes-grid"></div>
   `;
 
-  document.getElementById("addNote").onclick = () => {
-    addNote(document.getElementById("noteInput").value);
-    renderNotes(view);
-  };
+  document.getElementById("addNote").addEventListener("click", () => {
+    const val = document.getElementById("noteInput").value;
+    if (!val.trim()) return;
 
-  document.getElementById("notesList").innerHTML =
-    getNotes().map(n => `
-      <div class="note">
-        <div>${n.text}</div>
-      </div>
-    `).join("");
+    addNote(val);
+    renderNotes(view);
+  });
+
+  renderList();
+}
+
+function renderList() {
+  const list = document.getElementById("notesList");
+
+  list.innerHTML = getNotes().map(n => `
+    <div class="note">${n.text}</div>
+  `).join("");
 }
