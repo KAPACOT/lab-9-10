@@ -22,3 +22,17 @@ function navigate(dir) {
   if (i === -1) i = 0;
   location.hash = routes[(i + dir + 3) % 3];
 }
+import { initUI } from "./core/uiContainer.js";
+import { initRouter } from "./core/router.js";
+
+try {
+  initUI();
+  initRouter();
+} catch (e) {
+  document.body.innerHTML = `
+    <div style="padding:20px;font-family:sans-serif">
+      <h2>App crashed</h2>
+      <pre>${e.message}</pre>
+    </div>
+  `;
+}

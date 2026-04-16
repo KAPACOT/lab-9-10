@@ -3,27 +3,31 @@ import { getTasks, addTask, toggleTask } from "./tasks.js";
 export function renderTasks(view) {
   view.innerHTML = `
     <h2>Tasks</h2>
-
-    <div class="card">
-      <input id="taskInput" placeholder="New task"/>
-      <button id="addBtn" class="btn-primary">Add</button>
-    </div>
-
     <div id="list"></div>
   `;
 
-  document.getElementById("addBtn").onclick = () => {
-    addTask(document.getElementById("taskInput").value);
-    renderTasks(view);
-  };
+  document.addEventListener("addTask", handleAdd);
 
+  renderList();
+}
+
+function handleAdd(e) {
+  addTask(e.detail);
   renderList();
 }
 
 function renderList() {
   const list = document.getElementById("list");
+  if (!list) return;
 
-  list.innerHTML = getTasks().map(t => `
+  const tasks = getTasks();
+
+  if (!tasks.length) {
+    list.innerHTML = `<div class="empty">No tasks yet</div>`;
+    return;
+  }
+
+  list.innerHTML = tasks.map(t => `
     <div class="task ${t.done ? "done" : ""}" data-id="${t.id}">
       <span>${t.title}</span>
       <input type="checkbox" ${t.done ? "checked" : ""}/>

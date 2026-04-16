@@ -3,14 +3,23 @@ import { getNotes, addNote } from "./notes.js";
 export function renderNotes(view) {
   view.innerHTML = `
     <h2>Notes</h2>
-    <div id="notesList" class="notes-list"></div>
+    <div id="notesList"></div>
   `;
 
+  document.addEventListener("addNote", handleAdd);
+
+  renderList();
+}
+
+function handleAdd(e) {
+  addNote(e.detail);
   renderList();
 }
 
 function renderList() {
   const list = document.getElementById("notesList");
+  if (!list) return;
+
   const notes = getNotes();
 
   if (!notes.length) {
@@ -22,10 +31,3 @@ function renderList() {
     <div class="note-card">${n.text}</div>
   `).join("");
 }
-
-/* modal */
-window.addNoteFromModal = (text) => {
-  if (!text.trim()) return;
-  addNote(text);
-  renderList();
-};

@@ -42,21 +42,29 @@ function initFAB() {
   const fab = document.getElementById("fab");
   const modal = document.getElementById("modal");
 
-  fab.onclick = () => modal.classList.add("active");
+  fab.addEventListener("click", () => {
+    modal.classList.add("active");
+  });
 
-  modal.onclick = (e) => {
-    if (e.target.id === "modal") modal.classList.remove("active");
-  };
+  modal.addEventListener("click", (e) => {
+    if (e.target.id === "modal") {
+      modal.classList.remove("active");
+    }
+  });
 
-  document.getElementById("modalSave").onclick = () => {
-    const text = document.getElementById("modalInput").value;
+  document.getElementById("modalSave").addEventListener("click", () => {
+    const text = document.getElementById("modalInput").value.trim();
 
+    if (!text) return;
+
+    // 🔥 безопасный вызов
     if (location.hash === "#/tasks") {
-      window.addTaskFromModal(text);
-    } else {
-      window.addNoteFromModal(text);
+      document.dispatchEvent(new CustomEvent("addTask", { detail: text }));
+    } else if (location.hash === "#/notes") {
+      document.dispatchEvent(new CustomEvent("addNote", { detail: text }));
     }
 
+    document.getElementById("modalInput").value = "";
     modal.classList.remove("active");
-  };
+  });
 }
