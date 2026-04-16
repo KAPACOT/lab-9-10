@@ -1,4 +1,17 @@
 {
   "name": "smart-dashboard",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "description": "PWA Smart Dashboard with Tasks, Notes and Tracker",
+  "scripts": {
+    "start": "serve public -l 3000",
+    "build": "echo 'No build step required'",
+    "lint": "eslint src",
+    "test": "echo \"No tests yet\""
+  },
+  "keywords": ["pwa", "dashboard", "tasks"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.0.0"
+  }
 }
