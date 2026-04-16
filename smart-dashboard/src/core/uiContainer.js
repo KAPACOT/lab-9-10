@@ -1,4 +1,4 @@
-import { setLang, getLang } from "./i18n.js";
+import { setLang, getLang, t } from "./i18n.js";
 
 export function initUI() {
   document.getElementById("app").innerHTML = `
@@ -6,9 +6,9 @@ export function initUI() {
       <div id="view" class="screen"></div>
       <button id="fab" class="fab">+</button>
       <nav class="bottom-nav">
-        <button data-route="#/tasks">Tasks</button>
-        <button data-route="#/notes">Notes</button>
-        <button data-route="#/tracker">Tracker</button>
+        <button data-route="#/tasks">${t("tasks")}</button>
+        <button data-route="#/notes">${t("notes")}</button>
+        <button data-route="#/tracker">${t("tracker")}</button>
       </nav>
       <div class="top-bar">
         <select id="lang"></select>
@@ -21,13 +21,13 @@ export function initUI() {
   initNav();
   initLang();
   initTheme();
+  initModalBackdrop();
 }
 
 function initNav() {
   document.querySelectorAll(".bottom-nav button").forEach(btn => {
     btn.onclick = () => {
       location.hash = btn.dataset.route;
-      // Показываем FAB при переходе на tasks/notes (трекер сам скроет)
       const fab = document.getElementById("fab");
       if (btn.dataset.route !== "#/tracker") {
         fab.style.display = "flex";
@@ -60,4 +60,17 @@ function initTheme() {
     localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
     updateIcon();
   };
+}
+
+function initModalBackdrop() {
+  const modal = document.getElementById("modal");
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.classList.add("hidden");
+      // Показать FAB снова, если не трекер
+      if (location.hash !== "#/tracker") {
+        document.getElementById("fab").style.display = "flex";
+      }
+    }
+  });
 }

@@ -21,3 +21,17 @@ export function toggleTask(id) {
   if (task) task.done = !task.done;
   save(data);
 }
+
+export function deleteTask(id) {
+  const data = load();
+  data.tasks = data.tasks.filter(t => t.id !== id);
+  save(data);
+}
+
+export function updateTask(id, newTitle) {
+  if (!newTitle?.trim()) return;
+  const data = load();
+  const task = data.tasks.find(t => t.id === id);
+  if (task) task.title = newTitle.trim();
+  save(data);
+}
