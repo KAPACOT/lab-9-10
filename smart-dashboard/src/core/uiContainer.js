@@ -49,9 +49,15 @@ function initLang() {
 
 function initTheme() {
   const saved = localStorage.getItem("theme") || "light";
+  const btn = document.getElementById("theme");
+  const updateIcon = () => {
+    btn.textContent = document.body.classList.contains("dark") ? "☀" : "☾";
+  };
   document.body.classList.toggle("dark", saved === "dark");
-  document.getElementById("theme").onclick = () => {
-    const d = document.body.classList.toggle("dark");
-    localStorage.setItem("theme", d ? "dark" : "light");
+  updateIcon();
+  btn.onclick = () => {
+    document.body.classList.toggle("dark");
+    localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+    updateIcon();
   };
 }
