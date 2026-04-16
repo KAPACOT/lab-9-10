@@ -1,41 +1,23 @@
-import { getTasks, addTask, toggleTask } from "./tasks.js";
+import { load, save } from "../../core/dataService.js";
 
-export function renderTasks(view) {
-  view.innerHTML = `
-    <h2>Tasks</h2>
-    <div id="list"></div>
-  `;
-
-  renderList();
+export function getTasks() {
+  return load().tasks;
 }
 
-function renderList() {
-  const list = document.getElementById("list");
-  const tasks = getTasks();
-
-  if (!tasks.length) {
-    list.innerHTML = `<div class="empty">No tasks yet</div>`;
-    return;
-  }
-
-  list.innerHTML = tasks.map(t => `
-    <div class="task ${t.done ? "done" : ""}" data-id="${t.id}">
-      <span>${t.title}</span>
-      <input type="checkbox" ${t.done ? "checked" : ""}/>
-    </div>
-  `).join("");
-
-  list.querySelectorAll(".task").forEach(el => {
-    el.onclick = () => {
-      toggleTask(Number(el.dataset.id));
-      renderList();
-    };
+export function addTask(title) {
+  if (!title?.trim()) return;
+  const data = load();
+  data.tasks.push({
+    id: Date.now(),
+    title: title.trim(),
+    done: false
   });
+  save(data);
 }
 
-/* для modal */
-window.addTaskFromModal = (text) => {
-  if (!text.trim()) return;
-  addTask(text);
-  renderList();
-};
+export function toggleTask(id) {
+  const data = load();
+  const task = data.tasks.find(t => t.id === id);
+  if (task) task.done = !task.done;
+  save(data);
+}

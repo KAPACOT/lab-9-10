@@ -8,31 +8,38 @@ export function renderNotes(view) {
 
   renderList();
 
-  document.getElementById("fab").onclick = openModal;
+  const fab = document.getElementById("fab");
+  fab.style.display = "flex";
+  fab.onclick = openModal;
 }
 
 function renderList() {
   const list = document.getElementById("list");
+  const notes = getNotes();
 
-  list.innerHTML = getNotes().map(n => `
+  if (!notes.length) {
+    list.innerHTML = `<div class="empty">No notes yet</div>`;
+    return;
+  }
+
+  list.innerHTML = notes.map(n => `
     <div class="card">${n.text}</div>
   `).join("");
 }
 
 function openModal() {
   const modal = document.getElementById("modal");
-
   modal.innerHTML = `
     <div class="modal-box">
       <textarea id="newNote"></textarea>
       <button id="save" class="btn">Add</button>
     </div>
   `;
-
   modal.classList.remove("hidden");
 
   document.getElementById("save").onclick = () => {
-    addNote(document.getElementById("newNote").value);
+    const textarea = document.getElementById("newNote");
+    addNote(textarea.value);
     modal.classList.add("hidden");
     renderList();
   };

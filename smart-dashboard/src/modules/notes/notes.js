@@ -1,33 +1,15 @@
-import { getNotes, addNote } from "./notes.js";
+import { load, save } from "../../core/dataService.js";
 
-export function renderNotes(view) {
-  view.innerHTML = `
-    <h2>Notes</h2>
-    <div id="notesList"></div>
-  `;
-
-  document.addEventListener("addNote", handleAdd);
-
-  renderList();
+export function getNotes() {
+  return load().notes;
 }
 
-function handleAdd(e) {
-  addNote(e.detail);
-  renderList();
-}
-
-function renderList() {
-  const list = document.getElementById("notesList");
-  if (!list) return;
-
-  const notes = getNotes();
-
-  if (!notes.length) {
-    list.innerHTML = `<div class="empty">No notes yet</div>`;
-    return;
-  }
-
-  list.innerHTML = notes.map(n => `
-    <div class="note-card">${n.text}</div>
-  `).join("");
+export function addNote(text) {
+  if (!text?.trim()) return;
+  const data = load();
+  data.notes.push({
+    id: Date.now(),
+    text: text.trim()
+  });
+  save(data);
 }
