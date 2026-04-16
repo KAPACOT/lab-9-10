@@ -10,7 +10,9 @@ export function addTask(title) {
   data.tasks.push({
     id: Date.now(),
     title: title.trim(),
-    done: false
+    done: false,
+    createdAt: Date.now(),
+    completedAt: null
   });
   save(data);
 }
@@ -18,7 +20,10 @@ export function addTask(title) {
 export function toggleTask(id) {
   const data = load();
   const task = data.tasks.find(t => t.id === id);
-  if (task) task.done = !task.done;
+  if (task) {
+    task.done = !task.done;
+    task.completedAt = task.done ? Date.now() : null;
+  }
   save(data);
 }
 

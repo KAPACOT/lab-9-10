@@ -27,26 +27,38 @@ function renderList() {
 
   list.innerHTML = notes.map(n => `
     <div class="card note-card" data-id="${n.id}">
-      ${n.text}
+      <span style="flex:1;">${n.text}</span>
+      <button class="delete-btn" data-id="${n.id}" title="${t("delete")}">🗑️</button>
     </div>
   `).join("");
 
   list.querySelectorAll(".note-card").forEach(el => {
     const id = Number(el.dataset.id);
+    const deleteBtn = el.querySelector(".delete-btn");
+
+    deleteBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      confirmDelete(id);
+    });
+
     let pressTimer;
-
-    el.addEventListener("touchstart", () => {
+    const startPress = () => {
       pressTimer = setTimeout(() => confirmDelete(id), 500);
-    });
-    el.addEventListener("touchend", () => clearTimeout(pressTimer));
-    el.addEventListener("touchmove", () => clearTimeout(pressTimer));
-    el.addEventListener("mousedown", () => {
-      pressTimer = setTimeout(() => confirmDelete(id), 500);
-    });
-    el.addEventListener("mouseup", () => clearTimeout(pressTimer));
-    el.addEventListener("mouseleave", () => clearTimeout(pressTimer));
+    };
+    const cancelPress = () => clearTimeout(pressTimer);
 
-    el.addEventListener("click", () => openEditModal(id));
+    el.addEventListener("touchstart", startPress);
+    el.addEventListener("touchend", cancelPress);
+    el.addEventListener("touchmove", cancelPress);
+    el.addEventListener("mousedown", startPress);
+    el.addEventListener("mouseup", cancelPress);
+    el.addEventListener("mouseleave", cancelPress);
+
+    el.addEventListener("click", (e) => {
+      if (e.target.tagName !== "BUTTON") {
+        openEditModal(id);
+      }
+    });
   });
 }
 

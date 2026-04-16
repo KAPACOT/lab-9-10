@@ -20,7 +20,6 @@ function renderList() {
   const list = document.getElementById("list");
   let tasks = getTasks();
 
-  // Сортировка: невыполненные сверху
   tasks.sort((a, b) => a.done - b.done);
 
   if (!tasks.length) {
@@ -31,38 +30,46 @@ function renderList() {
   list.innerHTML = tasks.map(t => `
     <div class="card task ${t.done ? "done" : ""}" data-id="${t.id}">
       <span>${t.title}</span>
-      <input type="checkbox" ${t.done ? "checked" : ""}/>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <input type="checkbox" ${t.done ? "checked" : ""}/>
+        <button class="delete-btn" data-id="${t.id}" title="${t("delete")}">🗑️</button>
+      </div>
     </div>
   `).join("");
 
-  // Обработчики событий
+  // Обработчики
   list.querySelectorAll(".task").forEach(el => {
     const id = Number(el.dataset.id);
     const checkbox = el.querySelector("input");
+    const deleteBtn = el.querySelector(".delete-btn");
 
-    // Чекбокс
     checkbox.addEventListener("click", (e) => {
       e.stopPropagation();
       toggleTask(id);
       renderList();
     });
 
-    // Долгое нажатие для удаления (имитация свайпа)
-    let pressTimer;
-    el.addEventListener("touchstart", () => {
-      pressTimer = setTimeout(() => confirmDelete(id), 500);
+    deleteBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      confirmDelete(id);
     });
-    el.addEventListener("touchend", () => clearTimeout(pressTimer));
-    el.addEventListener("touchmove", () => clearTimeout(pressTimer));
-    el.addEventListener("mousedown", () => {
-      pressTimer = setTimeout(() => confirmDelete(id), 500);
-    });
-    el.addEventListener("mouseup", () => clearTimeout(pressTimer));
-    el.addEventListener("mouseleave", () => clearTimeout(pressTimer));
 
-    // Клик для редактирования
+    // Долгое нажатие
+    let pressTimer;
+    const startPress = () => {
+      pressTimer = setTimeout(() => confirmDelete(id), 500);
+    };
+    const cancelPress = () => clearTimeout(pressTimer);
+
+    el.addEventListener("touchstart", startPress);
+    el.addEventListener("touchend", cancelPress);
+    el.addEventListener("touchmove", cancelPress);
+    el.addEventListener("mousedown", startPress);
+    el.addEventListener("mouseup", cancelPress);
+    el.addEventListener("mouseleave", cancelPress);
+
     el.addEventListener("click", (e) => {
-      if (e.target.tagName !== "INPUT") {
+      if (e.target.tagName !== "INPUT" && e.target.tagName !== "BUTTON") {
         openEditModal(id);
       }
     });

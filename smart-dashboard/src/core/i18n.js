@@ -18,7 +18,12 @@ const translations = {
     noNotes: "No notes yet",
     confirmDelete: "Delete?",
     clearData: "Clear all data",
-    dataCleared: "All data cleared"
+    dataCleared: "All data cleared",
+    active: "Active",
+    completionRate: "Completion rate",
+    avgTime: "Average completion time",
+    lastActivity: "Last activity",
+    lastCompleted: "Last completed",
   },
   ru: {
     dashboard: "Панель",
@@ -39,7 +44,12 @@ const translations = {
     noNotes: "Нет заметок",
     confirmDelete: "Удалить?",
     clearData: "Очистить данные",
-    dataCleared: "Данные удалены"
+    dataCleared: "Данные удалены",
+    active: "Активные",
+    completionRate: "Прогресс выполнения",
+    avgTime: "Среднее время",
+    lastActivity: "Последняя активность",
+    lastCompleted: "Последняя выполненная",
   },
   zh: {
     dashboard: "仪表板",
@@ -60,7 +70,12 @@ const translations = {
     noNotes: "暂无笔记",
     confirmDelete: "确认删除？",
     clearData: "清除数据",
-    dataCleared: "数据已清除"
+    dataCleared: "数据已清除",
+    active: "进行中",
+    completionRate: "完成率",
+    avgTime: "平均完成时间",
+    lastActivity: "最近活动",
+    lastCompleted: "最近完成",
   }
 };
 

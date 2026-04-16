@@ -9,7 +9,8 @@ export function addNote(text) {
   const data = load();
   data.notes.push({
     id: Date.now(),
-    text: text.trim()
+    text: text.trim(),
+    createdAt: Date.now()
   });
   save(data);
 }
